@@ -1,0 +1,8 @@
+<div class="mx-auto grid max-w-4xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl md:grid-cols-2"><section class="flex flex-col justify-between bg-slate-950 p-10 text-white"><a href="/" class="text-3xl font-bold">TaskFlow<span class="text-indigo-400">.</span></a><div class="my-16"><p class="mb-4 text-xs font-semibold tracking-widest text-indigo-300">MOINS DE DISPERSION, PLUS D’ACTION</p><h1 class="text-4xl leading-tight font-bold">Vos projets.<br>Votre rythme.<br>Votre réussite.</h1><p class="mt-6 leading-7 text-slate-400">Un espace clair pour transformer vos idées en résultats concrets.</p></div><p class="text-xs text-slate-500">Gestion de projets & de tâches</p></section><section class="p-8 md:p-10"><h2 class="mt-4 text-2xl font-bold">Bienvenue</h2><p class="mt-2 text-sm text-slate-500">Connectez-vous à votre espace.</p>
+<?php require __DIR__ . "/partials/errors.php"; ?>
+<form class="mt-8 space-y-5" method="post" action="<?= e(
+    url("login"),
+) ?>"><?= csrf_field() ?><div><label for="email">Adresse e-mail</label><input id="email" name="email" type="email" autocomplete="username" value="<?= e(
+    $old["email"] ?? "",
+) ?>" required></div><div><label for="password">Mot de passe</label><input id="password" name="password" type="password" autocomplete="current-password" required></div><button class="btn w-full">Se connecter</button></form>
+<div class="mt-8 rounded-xl bg-slate-50 p-4 text-xs leading-6 text-slate-500"><p class="font-semibold text-slate-700">Explorer la démonstration</p><p>julien@taskflow.test<br>camille@taskflow.test</p><p>Mot de passe commun : <strong>Demo1234!</strong></p></div></section></div>

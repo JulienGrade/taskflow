@@ -1,0 +1,27 @@
+CREATE TABLE users (
+ id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ name VARCHAR(100) NOT NULL,
+ email VARCHAR(180) NOT NULL UNIQUE,
+ password VARCHAR(255) NOT NULL
+);
+CREATE TABLE projects (
+ id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+ name VARCHAR(100) NOT NULL,
+ description TEXT NOT NULL DEFAULT '',
+ color VARCHAR(7) NOT NULL DEFAULT '#6366f1',
+ created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE tasks (
+ id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ project_id BIGINT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+ title VARCHAR(150) NOT NULL,
+ description TEXT NOT NULL DEFAULT '',
+ status VARCHAR(20) NOT NULL CHECK(status IN ('todo','doing','done')),
+ priority VARCHAR(20) NOT NULL CHECK(priority IN ('low','medium','high')),
+ due_date DATE,
+ created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX projects_user_idx ON projects(user_id);
+CREATE INDEX tasks_project_idx ON tasks(project_id);
+CREATE INDEX tasks_status_idx ON tasks(status);

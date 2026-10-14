@@ -1,0 +1,31 @@
+name: taskflow-procedural
+services:
+  app:
+    build: .
+    ports:
+      - "127.0.0.1:${APP_PORT:-8081}:8000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-taskflow}
+      DB_USER: ${DB_USER:-taskflow}
+      DB_PASSWORD: ${DB_PASSWORD:-taskflow_local}
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-taskflow}
+      POSTGRES_USER: ${DB_USER:-taskflow}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-taskflow_local}
+    volumes:
+      - database:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+volumes:
+  database:
